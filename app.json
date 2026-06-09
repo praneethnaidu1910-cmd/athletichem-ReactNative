@@ -1,25 +1,43 @@
 {
   "expo": {
-    "name": "athletichem-native",
-    "slug": "athletichem-native",
+    "name": "AthletiChem",
+    "slug": "athletichem",
+    "scheme": "athletichem",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "icon": "./assets/athletichem-icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/athletichem-logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#3b82f6"
+    },
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.athletichem.app",
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Use Face ID to unlock AthletiChem",
+        "NSHealthShareUsageDescription": "Read health data for recovery insights",
+        "NSHealthUpdateUsageDescription": "Save workout and daily log data"
+      }
     },
     "android": {
+      "package": "com.athletichem.app",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "foregroundImage": "./assets/athletichem-icon.png",
+        "backgroundColor": "#3b82f6"
       },
-      "predictiveBackGestureEnabled": false
+      "permissions": ["USE_BIOMETRIC", "POST_NOTIFICATIONS"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      "expo-secure-store",
+      "expo-local-authentication",
+      "expo-notifications"
+    ]
   }
 }
