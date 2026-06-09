@@ -1,7 +1,7 @@
 {
   "name": "athletichem-native",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "expo-router/entry",
   "dependencies": {
     "@supabase/supabase-js": "^2.108.1",
     "@tanstack/react-query": "^5.101.0",
