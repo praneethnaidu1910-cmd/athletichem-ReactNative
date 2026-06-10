@@ -1,10 +1,36 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import { useState } from "react";
 import { Link } from "expo-router";
+import { supabase } from "../../src/integrations/supabase/client";
 
 export default function ResetPasswordScreen() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleReset = async () => {
+    if (!email) {
+      Alert.alert("Error", "Please enter your email");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: "athletichem://reset-password",
+      });
+
+      if (error) {
+        Alert.alert("Error", error.message);
+      } else {
+        setSent(true);
+      }
+    } catch (err) {
+      Alert.alert("Error", "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -32,8 +58,16 @@ export default function ResetPasswordScreen() {
               keyboardType="email-address"
             />
 
-            <TouchableOpacity style={styles.button} onPress={() => setSent(true)}>
-              <Text style={styles.buttonText}>Send Reset Link</Text>
+            <TouchableOpacity
+              style={[styles.button, loading && styles.buttonDisabled]}
+              onPress={handleReset}
+              disabled={loading}
+            >
+              {loading ? (
+                <ActivityIndicator color="#ffffff" />
+              ) : (
+                <Text style={styles.buttonText}>Send Reset Link</Text>
+              )}
             </TouchableOpacity>
           </>
         )}
@@ -91,6 +125,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 14,
     marginBottom: 16,
+    alignItems: "center",
+  },
+  buttonDisabled: {
+    opacity: 0.6,
   },
   buttonText: {
     color: "#ffffff",

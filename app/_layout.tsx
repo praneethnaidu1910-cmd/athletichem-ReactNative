@@ -1,34 +1,35 @@
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
-import * as SecureStore from "expo-secure-store";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-const queryClient = new QueryClient();
+import { useEffect } from "react";
+import { supabase } from "../src/integrations/supabase/client";
 
 export default function RootLayout() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-
   useEffect(() => {
-    checkAuth();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        router.replace("/(athlete)");
+      } else {
+        router.replace("/(auth)/auth");
+      }
+    });
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        router.replace("/(athlete)");
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  const checkAuth = async () => {
-    try {
-      const session = await SecureStore.getItemAsync("supabase-session");
-      setIsLoggedIn(!!session);
-    } catch {
-      setIsLoggedIn(false);
-    }
-  };
-
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
       <Stack>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(athlete)" options={{ headerShown: false }} />
         <Stack.Screen name="(coach)" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
-    </QueryClientProvider>
+    </>
   );
 }

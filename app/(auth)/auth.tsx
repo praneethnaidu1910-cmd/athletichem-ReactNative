@@ -1,11 +1,37 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import { useState } from "react";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import { supabase } from "../../src/integrations/supabase/client";
 
 export default function AuthScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleAuth = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please enter email and password");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { error } = isSignUp
+        ? await supabase.auth.signUp({ email, password })
+        : await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        Alert.alert("Error", error.message);
+      } else {
+        router.replace("/(athlete)");
+      }
+    } catch (err) {
+      Alert.alert("Error", "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -34,10 +60,18 @@ export default function AuthScreen() {
           secureTextEntry
         />
 
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>
-            {isSignUp ? "Sign Up" : "Sign In"}
-          </Text>
+        <TouchableOpacity
+          style={[styles.button, loading && styles.buttonDisabled]}
+          onPress={handleAuth}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#ffffff" />
+          ) : (
+            <Text style={styles.buttonText}>
+              {isSignUp ? "Sign Up" : "Sign In"}
+            </Text>
+          )}
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => setIsSignUp(!isSignUp)}>
@@ -103,6 +137,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 14,
     marginBottom: 16,
+    alignItems: "center",
+  },
+  buttonDisabled: {
+    opacity: 0.6,
   },
   buttonText: {
     color: "#ffffff",

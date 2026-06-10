@@ -1,6 +1,22 @@
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { useEffect, useState } from "react";
+import { router } from "expo-router";
+import { supabase } from "../../src/integrations/supabase/client";
 
 export default function ProfileScreen() {
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setEmail(data.user?.email ?? "");
+    });
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    router.replace("/(auth)/auth");
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
@@ -8,10 +24,12 @@ export default function ProfileScreen() {
 
         <View style={styles.avatarSection}>
           <View style={styles.avatar}>
-            <Text style={styles.avatarText}>A</Text>
+            <Text style={styles.avatarText}>
+              {email ? email[0].toUpperCase() : "A"}
+            </Text>
           </View>
-          <Text style={styles.name}>Athlete Name</Text>
-          <Text style={styles.email}>athlete@email.com</Text>
+          <Text style={styles.name}>Athlete</Text>
+          <Text style={styles.email}>{email}</Text>
         </View>
 
         <View style={styles.card}>
@@ -46,7 +64,7 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.signOutButton}>
+        <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
           <Text style={styles.signOutText}>Sign Out</Text>
         </TouchableOpacity>
       </View>
