@@ -3,8 +3,6 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import * as SecureStore from "expo-secure-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import "./global.css";
-
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
