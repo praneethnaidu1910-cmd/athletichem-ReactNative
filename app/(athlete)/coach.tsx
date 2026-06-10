@@ -1,52 +1,53 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 
 export default function CoachTabScreen() {
   return (
-    <ScrollView className="flex-1 bg-background">
-      <View className="p-6">
-        <Text className="text-2xl font-bold text-foreground mb-6">
-          Your Coach
-        </Text>
+    <ScrollView style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.heading}>Your Coach</Text>
 
-        {/* Coach Info */}
-        <View className="bg-card border border-border rounded-xl p-6 mb-4">
-          <View className="flex-row items-center">
-            <View className="w-16 h-16 bg-primary/20 rounded-full items-center justify-center mr-4">
-              <Text className="text-primary text-2xl font-bold">C</Text>
+        <View style={styles.coachCard}>
+          <View style={styles.avatarRow}>
+            <View style={styles.avatar}>
+              <Text style={styles.avatarText}>C</Text>
             </View>
             <View>
-              <Text className="text-lg font-semibold text-foreground">
-                Coach Name
-              </Text>
-              <Text className="text-muted-foreground">Head Coach</Text>
+              <Text style={styles.coachName}>Coach Name</Text>
+              <Text style={styles.coachRole}>Head Coach</Text>
             </View>
           </View>
         </View>
 
-        {/* Recent Notes */}
-        <View className="bg-card border border-border rounded-xl p-6 mb-4">
-          <Text className="text-lg font-semibold text-foreground mb-4">
-            Recent Notes
-          </Text>
-          <View className="bg-muted/30 rounded-lg p-4">
-            <Text className="text-muted-foreground">
-              No recent notes from your coach.
-            </Text>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Recent Notes</Text>
+          <View style={styles.emptyBox}>
+            <Text style={styles.emptyText}>No recent notes from your coach.</Text>
           </View>
         </View>
 
-        {/* Training Plan */}
-        <View className="bg-card border border-border rounded-xl p-6">
-          <Text className="text-lg font-semibold text-foreground mb-4">
-            Current Training Plan
-          </Text>
-          <View className="bg-muted/30 rounded-lg p-4">
-            <Text className="text-muted-foreground">
-              No active training plan.
-            </Text>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Current Training Plan</Text>
+          <View style={styles.emptyBox}>
+            <Text style={styles.emptyText}>No active training plan.</Text>
           </View>
         </View>
       </View>
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: "#ffffff" },
+  content: { padding: 24 },
+  heading: { fontSize: 24, fontWeight: "bold", color: "#1f2937", marginBottom: 24 },
+  coachCard: { backgroundColor: "#f9fafb", borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 12, padding: 24, marginBottom: 16 },
+  avatarRow: { flexDirection: "row", alignItems: "center", gap: 16 },
+  avatar: { width: 64, height: 64, backgroundColor: "rgba(59,130,246,0.2)", borderRadius: 32, alignItems: "center", justifyContent: "center" },
+  avatarText: { color: "#3b82f6", fontSize: 24, fontWeight: "bold" },
+  coachName: { fontSize: 18, fontWeight: "600", color: "#1f2937" },
+  coachRole: { color: "#6b7280", fontSize: 14 },
+  card: { backgroundColor: "#f9fafb", borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 12, padding: 24, marginBottom: 16 },
+  cardTitle: { fontSize: 18, fontWeight: "600", color: "#1f2937", marginBottom: 16 },
+  emptyBox: { backgroundColor: "rgba(249,250,251,0.5)", borderRadius: 8, padding: 16 },
+  emptyText: { color: "#6b7280" },
+});

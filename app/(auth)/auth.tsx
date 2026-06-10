@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { useState } from "react";
 import { Link } from "expo-router";
 
@@ -8,19 +8,17 @@ export default function AuthScreen() {
   const [isSignUp, setIsSignUp] = useState(false);
 
   return (
-    <View className="flex-1 justify-center items-center bg-background p-6">
-      <View className="w-full max-w-sm">
-        <Text className="text-3xl font-bold text-primary text-center mb-2">
-          AthletiChem
-        </Text>
-        <Text className="text-muted-foreground text-center mb-8">
+    <View style={styles.container}>
+      <View style={styles.form}>
+        <Text style={styles.title}>AthletiChem</Text>
+        <Text style={styles.subtitle}>
           {isSignUp ? "Create your account" : "Sign in to your account"}
         </Text>
 
         <TextInput
-          className="w-full bg-card border border-border rounded-lg px-4 py-3 mb-4 text-foreground"
+          style={styles.input}
           placeholder="Email"
-          placeholderTextColor="#6b7280"
+          placeholderTextColor="#9ca3af"
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
@@ -28,22 +26,22 @@ export default function AuthScreen() {
         />
 
         <TextInput
-          className="w-full bg-card border border-border rounded-lg px-4 py-3 mb-6 text-foreground"
+          style={styles.input}
           placeholder="Password"
-          placeholderTextColor="#6b7280"
+          placeholderTextColor="#9ca3af"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
         />
 
-        <TouchableOpacity className="w-full bg-primary rounded-lg py-3 mb-4">
-          <Text className="text-primary-foreground text-center font-semibold">
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>
             {isSignUp ? "Sign Up" : "Sign In"}
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => setIsSignUp(!isSignUp)}>
-          <Text className="text-muted-foreground text-center">
+          <Text style={styles.linkText}>
             {isSignUp
               ? "Already have an account? Sign In"
               : "Don't have an account? Sign Up"}
@@ -52,10 +50,8 @@ export default function AuthScreen() {
 
         {!isSignUp && (
           <Link href="/(auth)/reset-password" asChild>
-            <TouchableOpacity className="mt-4">
-              <Text className="text-primary text-center text-sm">
-                Forgot password?
-              </Text>
+            <TouchableOpacity>
+              <Text style={styles.forgotText}>Forgot password?</Text>
             </TouchableOpacity>
           </Link>
         )}
@@ -63,3 +59,66 @@ export default function AuthScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 24,
+  },
+  form: {
+    width: "100%",
+    maxWidth: 380,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#3b82f6",
+    textAlign: "center",
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#6b7280",
+    textAlign: "center",
+    marginBottom: 32,
+  },
+  input: {
+    width: "100%",
+    backgroundColor: "#f9fafb",
+    borderWidth: 1,
+    borderColor: "#e5e7eb",
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    fontSize: 16,
+    color: "#1f2937",
+    marginBottom: 16,
+  },
+  button: {
+    width: "100%",
+    backgroundColor: "#3b82f6",
+    borderRadius: 8,
+    paddingVertical: 14,
+    marginBottom: 16,
+  },
+  buttonText: {
+    color: "#ffffff",
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  linkText: {
+    color: "#6b7280",
+    textAlign: "center",
+    fontSize: 14,
+  },
+  forgotText: {
+    color: "#3b82f6",
+    textAlign: "center",
+    fontSize: 14,
+    marginTop: 16,
+  },
+});

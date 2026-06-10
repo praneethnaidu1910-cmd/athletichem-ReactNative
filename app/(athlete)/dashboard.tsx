@@ -1,63 +1,69 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 
 export default function DashboardScreen() {
   return (
-    <ScrollView className="flex-1 bg-background">
-      <View className="p-6">
-        <Text className="text-2xl font-bold text-foreground mb-6">
-          Dashboard
-        </Text>
+    <ScrollView style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.heading}>Dashboard</Text>
 
-        {/* Recovery Score */}
-        <View className="bg-card border border-border rounded-xl p-6 mb-4">
-          <Text className="text-lg font-semibold text-foreground mb-2">
-            Recovery Score
-          </Text>
-          <View className="items-center py-4">
-            <Text className="text-6xl font-bold text-primary">--</Text>
-            <Text className="text-muted-foreground mt-2">
-              No data yet
-            </Text>
+        <View style={styles.scoreCard}>
+          <Text style={styles.cardTitle}>Recovery Score</Text>
+          <View style={styles.scoreCenter}>
+            <Text style={styles.scoreValue}>--</Text>
+            <Text style={styles.scoreLabel}>No data yet</Text>
           </View>
         </View>
 
-        {/* Key Metrics */}
-        <View className="bg-card border border-border rounded-xl p-6 mb-4">
-          <Text className="text-lg font-semibold text-foreground mb-4">
-            Key Metrics
-          </Text>
-          <View className="space-y-4">
-            <View className="flex-row justify-between items-center">
-              <Text className="text-muted-foreground">Heart Rate Variability</Text>
-              <Text className="text-foreground font-medium">-- ms</Text>
-            </View>
-            <View className="flex-row justify-between items-center">
-              <Text className="text-muted-foreground">Sleep Quality</Text>
-              <Text className="text-foreground font-medium">-- %</Text>
-            </View>
-            <View className="flex-row justify-between items-center">
-              <Text className="text-muted-foreground">Resting Heart Rate</Text>
-              <Text className="text-foreground font-medium">-- bpm</Text>
-            </View>
-            <View className="flex-row justify-between items-center">
-              <Text className="text-muted-foreground">Body Weight</Text>
-              <Text className="text-foreground font-medium">-- kg</Text>
-            </View>
+        <View style={styles.metricsCard}>
+          <Text style={styles.cardTitle}>Key Metrics</Text>
+          <View style={styles.metricRow}>
+            <Text style={styles.metricLabel}>Heart Rate Variability</Text>
+            <Text style={styles.metricValue}>-- ms</Text>
+          </View>
+          <View style={styles.metricRow}>
+            <Text style={styles.metricLabel}>Sleep Quality</Text>
+            <Text style={styles.metricValue}>-- %</Text>
+          </View>
+          <View style={styles.metricRow}>
+            <Text style={styles.metricLabel}>Resting Heart Rate</Text>
+            <Text style={styles.metricValue}>-- bpm</Text>
+          </View>
+          <View style={styles.metricRow}>
+            <Text style={styles.metricLabel}>Body Weight</Text>
+            <Text style={styles.metricValue}>-- kg</Text>
           </View>
         </View>
 
-        {/* Hydration & Fatigue */}
-        <View className="flex-row gap-4">
-          <View className="flex-1 bg-card border border-border rounded-xl p-4">
-            <Text className="text-sm text-muted-foreground">Hydration</Text>
-            <Text className="text-2xl font-bold text-hydration mt-1">-- %</Text>
+        <View style={styles.row}>
+          <View style={styles.halfCard}>
+            <Text style={styles.halfLabel}>Hydration</Text>
+            <Text style={[styles.halfValue, { color: "#1e40af" }]}>-- %</Text>
           </View>
-          <View className="flex-1 bg-card border border-border rounded-xl p-4">
-            <Text className="text-sm text-muted-foreground">Fatigue</Text>
-            <Text className="text-2xl font-bold text-fatigue mt-1">--</Text>
+          <View style={styles.halfCard}>
+            <Text style={styles.halfLabel}>Fatigue</Text>
+            <Text style={[styles.halfValue, { color: "#ef4444" }]}>--</Text>
           </View>
         </View>
       </View>
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: "#ffffff" },
+  content: { padding: 24 },
+  heading: { fontSize: 24, fontWeight: "bold", color: "#1f2937", marginBottom: 24 },
+  scoreCard: { backgroundColor: "#f9fafb", borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 12, padding: 24, marginBottom: 16 },
+  cardTitle: { fontSize: 18, fontWeight: "600", color: "#1f2937", marginBottom: 16 },
+  scoreCenter: { alignItems: "center", paddingVertical: 16 },
+  scoreValue: { fontSize: 56, fontWeight: "bold", color: "#3b82f6" },
+  scoreLabel: { color: "#6b7280", marginTop: 8 },
+  metricsCard: { backgroundColor: "#f9fafb", borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 12, padding: 24, marginBottom: 16 },
+  metricRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: "#e5e7eb" },
+  metricLabel: { color: "#6b7280", fontSize: 15 },
+  metricValue: { color: "#1f2937", fontWeight: "500", fontSize: 15 },
+  row: { flexDirection: "row", gap: 16 },
+  halfCard: { flex: 1, backgroundColor: "#f9fafb", borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 12, padding: 16 },
+  halfLabel: { color: "#6b7280", fontSize: 13 },
+  halfValue: { fontSize: 24, fontWeight: "bold", marginTop: 4 },
+});

@@ -1,60 +1,65 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
 
 export default function CoachDashboardScreen() {
   return (
-    <ScrollView className="flex-1 bg-background">
-      <View className="p-6">
-        <Text className="text-2xl font-bold text-foreground mb-6">
-          Coach Dashboard
-        </Text>
+    <ScrollView style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.heading}>Coach Dashboard</Text>
 
-        {/* Team Overview */}
-        <View className="bg-card border border-border rounded-xl p-6 mb-4">
-          <Text className="text-lg font-semibold text-foreground mb-4">
-            Team Overview
-          </Text>
-          <View className="flex-row justify-around">
-            <View className="items-center">
-              <Text className="text-3xl font-bold text-primary">--</Text>
-              <Text className="text-muted-foreground text-sm">Athletes</Text>
+        <View style={styles.overviewCard}>
+          <Text style={styles.cardTitle}>Team Overview</Text>
+          <View style={styles.statsRow}>
+            <View style={styles.statItem}>
+              <Text style={[styles.statValue, { color: "#3b82f6" }]}>--</Text>
+              <Text style={styles.statLabel}>Athletes</Text>
             </View>
-            <View className="items-center">
-              <Text className="text-3xl font-bold text-training">--</Text>
-              <Text className="text-muted-foreground text-sm">Active</Text>
+            <View style={styles.statItem}>
+              <Text style={[styles.statValue, { color: "#1d4ed8" }]}>--</Text>
+              <Text style={styles.statLabel}>Active</Text>
             </View>
-            <View className="items-center">
-              <Text className="text-3xl font-bold text-warning">--</Text>
-              <Text className="text-muted-foreground text-sm">At Risk</Text>
+            <View style={styles.statItem}>
+              <Text style={[styles.statValue, { color: "#ef4444" }]}>--</Text>
+              <Text style={styles.statLabel}>At Risk</Text>
             </View>
           </View>
         </View>
 
-        {/* Athlete Roster */}
-        <View className="bg-card border border-border rounded-xl p-6 mb-4">
-          <Text className="text-lg font-semibold text-foreground mb-4">
-            Athlete Roster
-          </Text>
-          <View className="bg-muted/30 rounded-lg p-4">
-            <Text className="text-muted-foreground">
-              No athletes in your roster yet.
-            </Text>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Athlete Roster</Text>
+          <View style={styles.emptyBox}>
+            <Text style={styles.emptyText}>No athletes in your roster yet.</Text>
           </View>
         </View>
 
-        {/* Quick Actions */}
-        <View className="flex-row gap-3">
-          <TouchableOpacity className="flex-1 bg-primary rounded-xl p-4">
-            <Text className="text-primary-foreground font-semibold text-center">
-              Invite Athlete
-            </Text>
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.primaryButton}>
+            <Text style={styles.primaryButtonText}>Invite Athlete</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="flex-1 bg-card border border-border rounded-xl p-4">
-            <Text className="text-foreground font-semibold text-center">
-              AI Insights
-            </Text>
+          <TouchableOpacity style={styles.secondaryButton}>
+            <Text style={styles.secondaryButtonText}>AI Insights</Text>
           </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: "#ffffff" },
+  content: { padding: 24 },
+  heading: { fontSize: 24, fontWeight: "bold", color: "#1f2937", marginBottom: 24 },
+  overviewCard: { backgroundColor: "#f9fafb", borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 12, padding: 24, marginBottom: 16 },
+  cardTitle: { fontSize: 18, fontWeight: "600", color: "#1f2937", marginBottom: 24 },
+  statsRow: { flexDirection: "row", justifyContent: "space-around" },
+  statItem: { alignItems: "center" },
+  statValue: { fontSize: 30, fontWeight: "bold" },
+  statLabel: { color: "#6b7280", fontSize: 13, marginTop: 4 },
+  card: { backgroundColor: "#f9fafb", borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 12, padding: 24, marginBottom: 16 },
+  emptyBox: { backgroundColor: "rgba(249,250,251,0.5)", borderRadius: 8, padding: 16 },
+  emptyText: { color: "#6b7280" },
+  row: { flexDirection: "row", gap: 12 },
+  primaryButton: { flex: 1, backgroundColor: "#3b82f6", borderRadius: 12, padding: 16 },
+  primaryButtonText: { color: "#ffffff", fontWeight: "600", textAlign: "center", fontSize: 16 },
+  secondaryButton: { flex: 1, backgroundColor: "#f9fafb", borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 12, padding: 16 },
+  secondaryButtonText: { color: "#1f2937", fontWeight: "600", textAlign: "center", fontSize: 16 },
+});

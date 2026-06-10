@@ -1,5 +1,13 @@
 import { Tabs } from "expo-router";
-import { Home, BarChart3, TrendingUp, Users } from "lucide-react-native";
+import { Text } from "react-native";
+
+function TabIcon({ label, focused }: { label: string; focused: boolean }) {
+  return (
+    <Text style={{ fontSize: 10, color: focused ? "#3b82f6" : "#6b7280" }}>
+      {label}
+    </Text>
+  );
+}
 
 export default function AthleteLayout() {
   return (
@@ -22,32 +30,28 @@ export default function AthleteLayout() {
         options={{
           title: "Home",
           headerShown: false,
-          tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
+          tabBarIcon: ({ focused }) => <TabIcon label="🏠" focused={focused} />,
         }}
       />
       <Tabs.Screen
         name="dashboard"
         options={{
           title: "Dashboard",
-          tabBarIcon: ({ color, size }) => (
-            <BarChart3 size={size} color={color} />
-          ),
+          tabBarIcon: ({ focused }) => <TabIcon label="📊" focused={focused} />,
         }}
       />
       <Tabs.Screen
         name="trends"
         options={{
           title: "Trends",
-          tabBarIcon: ({ color, size }) => (
-            <TrendingUp size={size} color={color} />
-          ),
+          tabBarIcon: ({ focused }) => <TabIcon label="📈" focused={focused} />,
         }}
       />
       <Tabs.Screen
         name="coach"
         options={{
           title: "Coach",
-          tabBarIcon: ({ color, size }) => <Users size={size} color={color} />,
+          tabBarIcon: ({ focused }) => <TabIcon label="👤" focused={focused} />,
         }}
       />
     </Tabs>

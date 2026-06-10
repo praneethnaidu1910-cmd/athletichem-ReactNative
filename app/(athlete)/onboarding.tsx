@@ -1,49 +1,54 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
 
 export default function OnboardingScreen() {
   return (
-    <ScrollView className="flex-1 bg-background">
-      <View className="flex-1 justify-center items-center p-6">
-        <View className="w-full max-w-sm">
-          {/* Progress Bar */}
-          <View className="flex-row gap-2 mb-8">
-            <View className="flex-1 h-1 bg-primary rounded-full" />
-            <View className="flex-1 h-1 bg-muted rounded-full" />
-            <View className="flex-1 h-1 bg-muted rounded-full" />
-          </View>
+    <ScrollView style={styles.container}>
+      <View style={styles.content}>
+        <View style={styles.progressBar}>
+          <View style={styles.progressFill} />
+          <View style={styles.progressEmpty} />
+          <View style={styles.progressEmpty} />
+        </View>
 
-          {/* Step 1 */}
-          <Text className="text-3xl font-bold text-foreground text-center mb-4">
-            Welcome to AthletiChem
-          </Text>
-          <Text className="text-muted-foreground text-center mb-8">
-            Let's set up your profile to personalize your recovery insights.
-          </Text>
+        <Text style={styles.heading}>Welcome to AthletiChem</Text>
+        <Text style={styles.subtitle}>
+          Let's set up your profile to personalize your recovery insights.
+        </Text>
 
-          {/* Sport Selection */}
-          <View className="space-y-3 mb-8">
-            <TouchableOpacity className="bg-card border border-border rounded-xl p-4">
-              <Text className="text-foreground font-medium">Football</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-card border border-border rounded-xl p-4">
-              <Text className="text-foreground font-medium">Basketball</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-card border border-border rounded-xl p-4">
-              <Text className="text-foreground font-medium">Soccer</Text>
-            </TouchableOpacity>
-            <TouchableOpacity className="bg-card border border-border rounded-xl p-4">
-              <Text className="text-foreground font-medium">Other</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Next Button */}
-          <TouchableOpacity className="w-full bg-primary rounded-xl py-4">
-            <Text className="text-primary-foreground text-center font-semibold text-lg">
-              Continue
-            </Text>
+        <View style={styles.options}>
+          <TouchableOpacity style={styles.option}>
+            <Text style={styles.optionText}>Football</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.option}>
+            <Text style={styles.optionText}>Basketball</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.option}>
+            <Text style={styles.optionText}>Soccer</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.option}>
+            <Text style={styles.optionText}>Other</Text>
           </TouchableOpacity>
         </View>
+
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Continue</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: "#ffffff" },
+  content: { flex: 1, justifyContent: "center", padding: 24 },
+  progressBar: { flexDirection: "row", gap: 8, marginBottom: 32 },
+  progressFill: { flex: 1, height: 4, backgroundColor: "#3b82f6", borderRadius: 2 },
+  progressEmpty: { flex: 1, height: 4, backgroundColor: "#f3f4f6", borderRadius: 2 },
+  heading: { fontSize: 30, fontWeight: "bold", color: "#1f2937", textAlign: "center", marginBottom: 16 },
+  subtitle: { fontSize: 16, color: "#6b7280", textAlign: "center", marginBottom: 32 },
+  options: { gap: 12, marginBottom: 32 },
+  option: { backgroundColor: "#f9fafb", borderWidth: 1, borderColor: "#e5e7eb", borderRadius: 12, padding: 16 },
+  optionText: { color: "#1f2937", fontWeight: "500", fontSize: 16 },
+  button: { backgroundColor: "#3b82f6", borderRadius: 12, paddingVertical: 16 },
+  buttonText: { color: "#ffffff", textAlign: "center", fontWeight: "600", fontSize: 18 },
+});
