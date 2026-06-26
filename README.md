@@ -215,6 +215,51 @@ eas submit --platform ios
 | Storage | expo-secure-store (auth tokens) |
 | Language | TypeScript (strict) |
 
+## Dashboard Migration (`feature/dashboard-migration`)
+
+This branch migrates the AthletiChem web athlete dashboard to a fully functional React Native replica.
+
+### What Was Built
+
+| File | Purpose |
+|------|---------|
+| `src/hooks/useDashboardData.ts` | Central data hook — fetches Supabase data, runs recovery engine, exposes all dashboard state |
+| `src/components/dashboard/RecoveryScoreCard.tsx` | Animated SVG ring showing recovery score (0–100) with HRV, sleep, and training load progress bars |
+| `src/components/dashboard/SixMetricCards.tsx` | 2-column grid of 6 metric cards: Recovery Score, Training Load, Sleep, HRV, Hydration, Metabolic Fatigue |
+| `src/components/dashboard/HydrationMonitor.tsx` | Interactive hydration calculator with sliders — shows fluid loss and recommended intake |
+| `src/components/dashboard/MetabolicFatigueMonitor.tsx` | Fatigue estimator with animated meter, score counter, and 4-factor breakdown bars |
+| `app/(athlete)/dashboard.tsx` | Main dashboard screen composing all components above |
+
+### Data Flow
+
+```
+Supabase (workouts + daily_logs)
+        ↓
+  useDashboardData.ts
+  ├── calculateRecoveryScore()   → RecoveryScoreCard
+  ├── 7-day load spike detection → Fatigue Alert banner
+  ├── latestHrv / latestSleep    → SixMetricCards
+  └── hydrationLevel / fatigue   ← pushed up from monitors
+```
+
+### Key Technical Decisions
+
+- **Shared business logic** — `recoveryEngine.ts`, `hydrationEngine.ts`, `metabolicFatigueEngine.ts` copied verbatim from the web app (pure TypeScript, no DOM dependencies). Identical calculations on both platforms.
+- **Animated values** — used `useState(() => new Animated.Value(0))` instead of `useRef` to satisfy the `react-hooks/refs` ESLint rule without losing animation functionality.
+- **SVG ring** — `Animated.createAnimatedComponent(Circle)` declared at module scope (not inside render) to satisfy `react-hooks/static-components`.
+- **Supabase auth** — uses `expo-secure-store` for token storage. Same Supabase project as the web app (`zzduronavlyxvcmvkwjx.supabase.co`).
+- **Node.js** — requires Node 20 LTS. Node 24 breaks Expo SDK 56 due to a `lodash.throttle` syntax incompatibility.
+
+### Lint Status
+
+`npm run lint` passes with **0 errors, 0 warnings** after fixing:
+- `react-hooks/refs` — all animated values use `useState(() => new Animated.Value(0))`
+- `react-hooks/static-components` — `AnimatedCircle` moved to module scope
+- `react-hooks/set-state-in-effect` — `useEffect` uses `void fetchData()`
+- `react/no-unescaped-entities` — all apostrophes in JSX wrapped in `{" "}`
+
+---
+
 ## Shared Code with Web App
 
 The following files are copied directly from the web app with **zero changes**:
