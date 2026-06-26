@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { router } from "expo-router";
 import { supabase } from "../../src/integrations/supabase/client";

@@ -25,7 +25,7 @@ export default function ResetPasswordScreen() {
       } else {
         setSent(true);
       }
-    } catch (err) {
+    } catch {
       Alert.alert("Error", "Something went wrong");
     } finally {
       setLoading(false);

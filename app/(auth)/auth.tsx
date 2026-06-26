@@ -26,7 +26,7 @@ export default function AuthScreen() {
       } else {
         router.replace("/(athlete)");
       }
-    } catch (err) {
+    } catch {
       Alert.alert("Error", "Something went wrong");
     } finally {
       setLoading(false);

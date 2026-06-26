@@ -12,7 +12,7 @@ export default function OnboardingScreen() {
 
         <Text style={styles.heading}>Welcome to AthletiChem</Text>
         <Text style={styles.subtitle}>
-          Let's set up your profile to personalize your recovery insights.
+          {"Let's set up your profile to personalize your recovery insights."}
         </Text>
 
         <View style={styles.options}>
@@ -51,4 +51,5 @@ const styles = StyleSheet.create({
   optionText: { color: "#1f2937", fontWeight: "500", fontSize: 16 },
   button: { backgroundColor: "#3b82f6", borderRadius: 12, paddingVertical: 16 },
   buttonText: { color: "#ffffff", textAlign: "center", fontWeight: "600", fontSize: 18 },
-});
+}
+);

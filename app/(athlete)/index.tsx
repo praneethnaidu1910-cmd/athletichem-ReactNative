@@ -6,13 +6,13 @@ export default function HomeScreen() {
     <ScrollView style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.heading}>Welcome back!</Text>
-        <Text style={styles.subheading}>Here's your daily overview</Text>
+        <Text style={styles.subheading}>{"Here's your daily overview"}</Text>
 
         <View style={styles.quickActions}>
           <Link href="/(athlete)/dashboard" asChild>
             <TouchableOpacity style={styles.primaryCard}>
               <Text style={styles.primaryCardTitle}>Daily Log</Text>
-              <Text style={styles.primaryCardSubtitle}>Log today's metrics</Text>
+              <Text style={styles.primaryCardSubtitle}>{"Log today's metrics"}</Text>
             </TouchableOpacity>
           </Link>
 
@@ -28,12 +28,12 @@ export default function HomeScreen() {
           <Text style={styles.cardTitle}>Recovery Score</Text>
           <View style={styles.scoreCenter}>
             <Text style={styles.scoreValue}>--</Text>
-            <Text style={styles.scoreLabel}>Complete today's check-in</Text>
+            <Text style={styles.scoreLabel}>{"Complete today's check-in"}</Text>
           </View>
         </View>
 
         <View style={styles.metricsCard}>
-          <Text style={styles.cardTitle}>Today's Metrics</Text>
+          <Text style={styles.cardTitle}>{"Today's Metrics"}</Text>
           <View style={styles.metricRow}>
             <Text style={styles.metricLabel}>HRV</Text>
             <Text style={styles.metricValue}>-- ms</Text>
