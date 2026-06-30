@@ -357,7 +357,7 @@ export default function OnboardingScreen() {
 
 const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: BG },
-  rings: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center' },
+  rings: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center' },
   scroll: { flexGrow: 1, alignItems: 'center', justifyContent: 'center', padding: 24, paddingVertical: 40 },
 
   progressWrap: { width: '100%', maxWidth: 440, marginBottom: 20 },
