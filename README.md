@@ -1,318 +1,126 @@
-# AthletiChem Native
+# AthletiChem — React Native Migration
 
-React Native (Expo) mobile app for iOS and Android — full athlete + coach parity with the [AthletiChem web app](https://github.com/Community-Dreams-Foundation/athletichem-native).
+A React Native (Expo SDK 56) Android app that replicates the AthletiChem web athlete experience — built as a contribution to the [Community Dreams Foundatiion} (https://github.com/Community-Dreams-Foundation/athletichem-native) project.
 
-## Overview
+## About This Work
 
-AthletiChem Native is a cross-platform mobile application built with Expo SDK 56 and React Native. It provides athletes and coaches with recovery tracking, daily logging, workout management, and AI-powered insights.
+This repo contains my contribution: migrating the **athlete dashboard** and **onboarding flow** from the React web app to a fully functional React Native mobile app, with live Supabase data, identical business logic, and pixel-accurate UI parity.
 
-### Features
+**Submitted as a pull request to the organization's private repository.**
 
-- **Auth**: Email/password sign-up and sign-in via Supabase
-- **Athlete Dashboard**: Recovery score, HRV, sleep, resting heart rate
-- **Daily Log**: Log daily metrics with form validation
-- **Workout Tracking**: Log and view workout sessions
-- **Trends**: Weekly and 30-day recovery trends
-- **Coach Dashboard**: Roster management, athlete monitoring, AI insights
-- **Profile**: User settings and sign-out
+---
 
-## Prerequisites
+## What I Built
 
-Before you begin, ensure you have the following installed:
+### Athlete Dashboard (`app/(athlete)/dashboard.tsx`)
 
-| Tool | Version | Install |
-|------|---------|---------|
-| **Node.js** | 20+ | [nodejs.org](https://nodejs.org/) |
-| **npm** | 10+ | Comes with Node.js |
-| **Expo CLI** | Latest | `npm install -g expo-cli` |
-| **Android Studio** | Latest | [developer.android.com](https://developer.android.com/studio) |
-| **Java JDK** | 17+ | Comes with Android Studio |
+| File | What it does |
+|------|-------------|
+| `src/hooks/useDashboardData.ts` | Fetches live Supabase data (workouts, daily logs), runs recovery calculations, exposes all dashboard state |
+| `src/components/dashboard/RecoveryScoreCard.tsx` | Animated SVG ring (0–100 recovery score) with HRV, sleep, and training load progress bars |
+| `src/components/dashboard/SixMetricCards.tsx` | 2-column grid of 6 live metric cards with color-coded status (good/moderate/risk) |
+| `src/components/dashboard/HydrationMonitor.tsx` | Interactive hydration calculator with slider inputs and animated fluid bars |
+| `src/components/dashboard/MetabolicFatigueMonitor.tsx` | Fatigue estimator with animated score counter, fatigue meter, and 4-factor breakdown bars |
 
-### Android SDK Setup
-
-1. Open Android Studio → **More Actions** → **SDK Manager**
-2. Install:
-   - Android SDK Platform 34
-   - Android SDK Build-Tools 34.0.0
-   - Android SDK Platform-Tools
-   - Android Emulator
-3. Create an AVD (Android Virtual Device):
-   - Open **Device Manager** → **Create Device**
-   - Select **Pixel 7** or similar
-   - System Image: **Android 34** (Google APIs)
-   - Finish setup
-
-4. Set environment variables in `~/.bashrc`:
-```bash
-export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator
-```
-
-Then run: `source ~/.bashrc`
-
-## Quick Start
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/Community-Dreams-Foundation/athletichem-native.git
-cd athletichem-native
-
-# 2. Install dependencies
-npm install
-
-# 3. Start the Expo dev server
-npm start
-
-# 4. Run on Android
-# Press 'a' in the terminal to open on Android emulator
-# Or scan the QR code with Expo Go on a physical device
-```
-
-## Project Structure
-
-```
-athletichem-native/
-├── app/                          # Expo Router screens
-│   ├── _layout.tsx               # Root layout (auth gate, providers)
-│   ├── (auth)/                   # Authentication screens
-│   │   ├── auth.tsx              # Login / Sign up
-│   │   └── reset-password.tsx    # Password reset
-│   ├── (athlete)/                # Athlete screens
-│   │   ├── _layout.tsx           # Bottom tab navigator
-│   │   ├── index.tsx             # Home (daily overview)
-│   │   ├── dashboard.tsx         # Dashboard (metrics)
-│   │   ├── trends.tsx            # Trends (charts)
-│   │   ├── coach.tsx             # Coach tab
-│   │   ├── profile.tsx           # Profile & settings
-│   │   └── onboarding.tsx        # 3-step onboarding
-│   └── (coach)/                  # Coach screens
-│       └── coach.tsx             # Coach dashboard
-├── src/
-│   ├── lib/                      # Business logic (pure functions)
-│   │   ├── recoveryEngine.ts
-│   │   ├── hydrationEngine.ts
-│   │   ├── metabolicFatigueEngine.ts
-│   │   ├── readinessEngine.ts
-│   │   ├── recoveryAccent.ts
-│   │   ├── dateUtils.ts
-│   │   ├── formValidation.ts
-│   │   └── errorMessages.ts
-│   ├── integrations/
-│   │   └── supabase/
-│   │       ├── client.ts         # Supabase client (SecureStore)
-│   │       └── types.ts          # Database types
-│   └── hooks/                    # Custom React hooks
-├── assets/                       # Images and icons
-├── app.json                      # Expo configuration
-├── eas.json                      # EAS Build configuration
-├── babel.config.js               # Babel configuration
-├── tsconfig.json                 # TypeScript configuration
-└── package.json
-```
-
-## Environment Variables
-
-Create a `.env` file in the project root:
-
-```bash
-EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-EXPO_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-```
-
-**Never commit `.env` to version control.** It is already in `.gitignore`.
-
-## Available Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm start` | Start Expo dev server |
-| `npm run android` | Run on Android emulator/device |
-| `npm run ios` | Run on iOS simulator (macOS only) |
-| `npm run web` | Run in web browser |
-| `npm run lint` | Run ESLint |
-| `npm test` | Run Jest tests |
-
-## Testing on Emulator
-
-### Start Android Emulator
-
-```bash
-# List available emulators
-$ANDROID_HOME/emulator/emulator -list-avds
-
-# Start an emulator
-$ANDROID_HOME/emulator/emulator -avd Pixel_7_API_34
-```
-
-### Run the App
-
-```bash
-npm start
-# Press 'a' to open on Android
-```
-
-### Take Screenshots (for debugging)
-
-```bash
-# Capture screenshot from connected device
-$ANDROID_HOME/platform-tools/adb shell screencap -p /sdcard/screenshot.png
-$ANDROID_HOME/platform-tools/adb pull /sdcard/screenshot.png ./screenshot.png
-```
-
-## Building for Production
-
-### EAS Build (Recommended)
-
-1. Install EAS CLI:
-```bash
-npm install -g eas-cli
-```
-
-2. Log in to Expo:
-```bash
-eas login
-```
-
-3. Configure EAS:
-```bash
-eas build:configure
-```
-
-4. Build for Android:
-```bash
-# Preview build (internal testing)
-eas build --platform android --profile preview
-
-# Production build (store release)
-eas build --platform android --profile production
-```
-
-5. Build for iOS (requires macOS):
-```bash
-eas build --platform ios --profile preview
-```
-
-### Submit to Stores
-
-```bash
-# Submit to Google Play
-eas submit --platform android
-
-# Submit to App Store
-eas submit --platform ios
-```
-
-## Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Framework | Expo SDK 56 |
-| UI | React Native StyleSheet |
-| Navigation | Expo Router (file-based) |
-| State | React Query + Zustand |
-| Forms | react-hook-form + Zod |
-| Backend | Supabase (PostgreSQL, Auth, RLS) |
-| Storage | expo-secure-store (auth tokens) |
-| Language | TypeScript (strict) |
-
-## Dashboard Migration (`feature/dashboard-migration`)
-
-This branch migrates the AthletiChem web athlete dashboard to a fully functional React Native replica.
-
-### What Was Built
-
-| File | Purpose |
-|------|---------|
-| `src/hooks/useDashboardData.ts` | Central data hook — fetches Supabase data, runs recovery engine, exposes all dashboard state |
-| `src/components/dashboard/RecoveryScoreCard.tsx` | Animated SVG ring showing recovery score (0–100) with HRV, sleep, and training load progress bars |
-| `src/components/dashboard/SixMetricCards.tsx` | 2-column grid of 6 metric cards: Recovery Score, Training Load, Sleep, HRV, Hydration, Metabolic Fatigue |
-| `src/components/dashboard/HydrationMonitor.tsx` | Interactive hydration calculator with sliders — shows fluid loss and recommended intake |
-| `src/components/dashboard/MetabolicFatigueMonitor.tsx` | Fatigue estimator with animated meter, score counter, and 4-factor breakdown bars |
-| `app/(athlete)/dashboard.tsx` | Main dashboard screen composing all components above |
-
-### Data Flow
-
+**Data flow:**
 ```
 Supabase (workouts + daily_logs)
         ↓
   useDashboardData.ts
   ├── calculateRecoveryScore()   → RecoveryScoreCard
-  ├── 7-day load spike detection → Fatigue Alert banner
+  ├── 7-day load spike detection → Alert banner
   ├── latestHrv / latestSleep    → SixMetricCards
   └── hydrationLevel / fatigue   ← pushed up from monitors
 ```
 
-### Key Technical Decisions
+### Onboarding Flow (`app/(athlete)/onboarding.tsx`)
 
-- **Shared business logic** — `recoveryEngine.ts`, `hydrationEngine.ts`, `metabolicFatigueEngine.ts` copied verbatim from the web app (pure TypeScript, no DOM dependencies). Identical calculations on both platforms.
-- **Animated values** — used `useState(() => new Animated.Value(0))` instead of `useRef` to satisfy the `react-hooks/refs` ESLint rule without losing animation functionality.
-- **SVG ring** — `Animated.createAnimatedComponent(Circle)` declared at module scope (not inside render) to satisfy `react-hooks/static-components`.
-- **Supabase auth** — uses `expo-secure-store` for token storage. Same Supabase project as the web app (`zzduronavlyxvcmvkwjx.supabase.co`).
-- **Node.js** — requires Node 20 LTS. Node 24 breaks Expo SDK 56 due to a `lodash.throttle` syntax incompatibility.
+3-step onboarding migrated from the web app:
 
-### Lint Status
+- **Step 1 — Welcome**: AthletiChem logo (SVG), tagline, animated sonar rings
+- **Step 2 — Personal Profile**: Name, age, sport, training level, height, weight, goals → saved to Supabase `profiles` table
+- **Step 3 — Health Metrics**: HRV, sleep, resting HR, body weight → saved to `recovery_metrics` table, marks `onboarding_completed = true`
 
-`npm run lint` passes with **0 errors, 0 warnings** after fixing:
-- `react-hooks/refs` — all animated values use `useState(() => new Animated.Value(0))`
-- `react-hooks/static-components` — `AnimatedCircle` moved to module scope
-- `react-hooks/set-state-in-effect` — `useEffect` uses `void fetchData()`
-- `react/no-unescaped-entities` — all apostrophes in JSX wrapped in `{" "}`
+Root layout checks `onboarding_completed` after login and routes accordingly.
 
 ---
 
-## Shared Code with Web App
+## Tech Stack
 
-The following files are copied directly from the web app with **zero changes**:
+| Layer | Technology |
+|-------|-----------|
+| Framework | Expo SDK 56 + React Native |
+| Navigation | Expo Router (file-based) |
+| Backend | Supabase (PostgreSQL, Auth, RLS) |
+| Auth storage | expo-secure-store |
+| Animations | React Native Animated API |
+| SVG | react-native-svg |
+| Icons | lucide-react-native |
+| Sliders | @react-native-community/slider |
+| Language | TypeScript (strict) |
 
-- `src/lib/recoveryEngine.ts`
-- `src/lib/hydrationEngine.ts`
-- `src/lib/metabolicFatigueEngine.ts`
-- `src/lib/readinessEngine.ts`
-- `src/lib/recoveryAccent.ts`
-- `src/lib/dateUtils.ts`
-- `src/lib/formValidation.ts`
-- `src/lib/errorMessages.ts`
-- `src/integrations/supabase/types.ts`
+---
 
-These are pure functions with no DOM dependencies.
+## Setup
+
+**Requires Node 20 LTS** — Node 24 breaks Expo SDK 56.
+
+```bash
+git clone https://github.com/praneethnaidu1910-cmd/athletichem-ReactNative.git
+cd athletichem-ReactNative
+npm install --legacy-peer-deps
+```
+
+Create a `.env` file:
+```
+EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
+
+Run on Android:
+```bash
+npm run android
+```
+
+---
 
 ## Troubleshooting
 
-### "Unable to resolve module" errors
+**Node 24 SyntaxError (`lodash.throttle`)** — switch to Node 20:
 ```bash
-rm -rf node_modules
-npm install
+nvm use 20
 ```
 
-### Metro bundler cache issues
+**"Unable to resolve module" after install:**
+```bash
+rm -rf node_modules
+npm install --legacy-peer-deps
+```
+
+**Metro cache issues:**
 ```bash
 npx expo start --clear
 ```
 
-### Android SDK not found
+**ADB emulator not connecting:**
 ```bash
-export ANDROID_HOME=$HOME/Android/Sdk
+adb kill-server
+adb start-server
+# Restart emulator from Android Studio Device Manager
 ```
 
-### Build fails with peer dependency conflicts
+**`@react-native-community/slider` not found:**
 ```bash
-npm install --legacy-peer-deps
+npm install @react-native-community/slider --legacy-peer-deps
 ```
 
-### App stuck on splash screen
-1. Stop the dev server (`Ctrl+C`)
-2. Clear cache: `rm -rf node_modules/.cache .expo`
-3. Restart: `npm start`
+---
 
-## Contributing
+## Lint
 
-1. Create a feature branch: `git checkout -b feature/your-feature`
-2. Make your changes
-3. Run lint: `npm run lint`
-4. Commit: `git commit -m "feat: your feature"`
-5. Push: `git push origin feature/your-feature`
-6. Open a Pull Request
+`npm run lint` passes with 0 errors, 0 warnings.
 
-## License
-
-See [LICENSE](LICENSE) for details.
+Key patterns used to satisfy strict ESLint rules:
+- `useState(() => new Animated.Value(0))` instead of `useRef` — fixes `react-hooks/refs`
+- `Animated.createAnimatedComponent()` at module scope — fixes `react-hooks/static-components`
+- Sub-components defined outside parent with explicit props — fixes `react-hooks/static-components`
