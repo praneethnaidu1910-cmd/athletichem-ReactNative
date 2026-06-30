@@ -5,21 +5,34 @@ import { supabase } from "../src/integrations/supabase/client";
 
 export default function RootLayout() {
   useEffect(() => {
+    const routeAfterLogin = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { router.replace("/(auth)/auth"); return; }
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("onboarding_completed")
+        .eq("id", session.user.id)
+        .maybeSingle();
+      if (profile?.onboarding_completed) {
+        router.replace("/(athlete)");
+      } else {
+        router.replace("/(athlete)/onboarding");
+      }
+    };
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
-        router.replace("/(athlete)");
+        routeAfterLogin();
       } else {
         router.replace("/(auth)/auth");
       }
     });
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        router.replace("/(athlete)");
-      }
-    });
+    routeAfterLogin();
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   return (

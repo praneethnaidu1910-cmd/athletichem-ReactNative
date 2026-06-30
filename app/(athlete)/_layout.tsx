@@ -26,6 +26,10 @@ export default function AthleteLayout() {
       }}
     >
       <Tabs.Screen
+        name="onboarding"
+        options={{ href: null, headerShown: false }}
+      />
+      <Tabs.Screen
         name="index"
         options={{
           title: "Home",
